@@ -1,26 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "entities";
+import getCollection from "../../services/getCollection";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  const { query: { id } } = req;
-
-  const users: User[] = [
-    {
-      id: 1,
-      nickname: 'sygma',
-      email: 'k.dumont1994@gmail.com'
-    },
-    {
-      id: 2,
-      nickname: 'gloria',
-      email: 'gloluz@gmail.com'
-    },
-    {
-      id: 3,
-      nickname: 'nicko',
-      email: 'nicko95678@hotmail.fr'
-    },
-  ];
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const collection = await getCollection<User>('user');
+  const users: User[] = await collection.find({}).toArray();
 
   res.json(users);
 }

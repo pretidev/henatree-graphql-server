@@ -1,14 +1,13 @@
 declare module "entities" {
-
   export interface User {
-    id: number,
+    _id: string,
     nickname: string,
     email: string,
     birthday: string,
   }
 
   export interface Outing {
-    id: number,
+    _id: string,
     type: string,
     date: string,
     nbGuest: {

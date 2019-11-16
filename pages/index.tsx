@@ -1,12 +1,17 @@
 import Head from 'next/head';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Outing } from "entities";
 
 const Home = () => {
   const [outings, setOutings] = useState<Outing[]>([]);
 
-  axios.get<Outing[]>('/api/outing').then(({ data }) => setOutings(data));
+  useEffect(
+    () => {
+      axios.get<Outing[]>('/api/outing').then(({ data }) => setOutings(data));
+    },
+    []
+  );
 
   return (
     <div>
@@ -15,7 +20,7 @@ const Home = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {outings.map(outing => (
-        <div key={outing.id} className="outing">
+        <div key={outing._id} className="outing">
           <div className="outing__type">
             {outing.type}
           </div>

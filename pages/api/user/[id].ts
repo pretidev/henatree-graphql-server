@@ -1,26 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "entities";
+import getCollection from "../../../services/getCollection";
+import { ObjectId } from "bson";
 
-const exists = (id: number) => {
-  return true;
-}
-
-export default (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { query: { id } } = req;
-  const identifier = Number.parseInt(id as string);
 
-  if (!exists(identifier)) {
+  const collection = await getCollection<User>('users');
+  const user: User = await collection.findOne({ _id: (new ObjectId(id as string)) });
+
+  if (!user) {
     return res.json({
-      error: "The id of th outing does not exist"
+      error: "The id of the user does not exist"
     });
   }
-
-  const user: User = {
-    id: identifier,
-    nickname: 'sygma',
-    email: 'k.dumont1994@gmail.com',
-    birthday: '2001-01-01',
-  };
 
   res.json(user);
 }

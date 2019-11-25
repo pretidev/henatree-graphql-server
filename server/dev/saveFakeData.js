@@ -1,7 +1,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost:27017/';
 
 const db = MongoClient.connect(url, {
   useUnifiedTopology: true,
@@ -13,7 +13,7 @@ const db = MongoClient.connect(url, {
 
 db.then(client => {
 
-  client.db('copaincopain').collection('users').insertMany([
+  client.db('local').collection('users').insertMany([
     {
       nickname: 'sygma',
       email: 'k.dumont1994@gmail.com',
@@ -26,14 +26,12 @@ db.then(client => {
     },
   ]);
 
-  client.db('copaincopain').collection('outings').insertMany([
+  client.db('local').collection('outings').insertMany([
     {
       type: 'cinema',
       date: '2019-10-10 18:00:00',
-      nbGuest: {
-        min: 2,
-        max: 4
-      },
+      minGuests: 2,
+      maxGuests: 4,
       author: {
         nickname: 'sygma',
         email: 'k.dumont1994@gmail.com',
@@ -43,10 +41,8 @@ db.then(client => {
     {
       type: 'restaurant',
       date: '2019-10-10 19:00:00',
-      nbGuest: {
-        min: 2,
-        max: 4
-      },
+      minGuests: 2,
+      maxGuests: 4,
       author: {
         nickname: 'sygma',
         email: 'k.dumont1994@gmail.com',
@@ -56,10 +52,8 @@ db.then(client => {
     {
       type: 'dîner entre amis',
       date: '2019-10-10 20:00:00',
-      nbGuest: {
-        min: 2,
-        max: 10
-      },
+      minGuests: 2,
+      maxGuests: 4,
       author: {
         nickname: 'sygma',
         email: 'k.dumont1994@gmail.com',

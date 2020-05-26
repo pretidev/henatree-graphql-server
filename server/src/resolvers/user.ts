@@ -1,4 +1,5 @@
-import User, { IUser } from '../models/User';
+import User, { IUser } from "../models/User";
+import sha256 from "crypto-js/sha256";
 
 export default {
   Query: {
@@ -6,16 +7,24 @@ export default {
     user: async (_: any, { id }: { id: any }) => await User.findById(id),
   },
   Mutation: {
-    createUser: async (_: any, { email, nickname, birthday }: IUser) => {
-      const newUser = new User({
-        email,
-        nickname,
-        birthday,
-      });
+    createUser: async (
+      _: any,
+      { phone, nickname, birthday, password }: IUser
+    ) => {
+      try {
+        const newUser = new User({
+          phone,
+          nickname,
+          birthday,
+          password: sha256(password),
+        });
 
-      await newUser.save();
+        await newUser.save();
 
-      return newUser;
-    }
-  }
-}
+        return newUser;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
